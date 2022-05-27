@@ -13,6 +13,9 @@ This program takes inputs through the console and sorts them based off the type 
 -dataType, -sortingType, -inputFile, -outputFile
 
 The -dataType argument requires the one of the following parameters: LONG, LINE, WORD. (The default is WORD aka String Tokens).
+
 The -sortingType argument requires one of the following parameters: natural, byCount (The default is natural aka natural ordering).
+
 The -inputFile argument takes a filename and requires a file that can be opened and read and expects the arguments in the same fashion as writing to the console.
+
 The -outputFile argument takes a filename and requires a file that can be created and will output all the console output to the new file.
