@@ -1,0 +1,637 @@
+type: edu
+custom_name: Error!
+files:
+- name: src/sorting/Main.java
+  visible: true
+  text: |
+    package sorting;
+
+    import java.util.*;
+
+    public class Main {
+        public static void main(final String[] args) {
+            Scanner scanner = new Scanner(System.in);
+
+            while (scanner.hasNextLong()) {
+                long number = scanner.nextLong();
+                // write your code here
+            }
+        }
+    }
+  learner_created: false
+- name: src/sorting/DataType.java
+  visible: true
+  text: |
+    package sorting;
+
+    public enum DataType {
+        LONG, LINE, WORD
+    }
+  learner_created: true
+- name: src/sorting/DataCollector.java
+  visible: true
+  text: |
+    package sorting;
+
+
+
+    public interface DataCollector {
+
+        void processList();
+
+        void sortNatural();
+
+        void sortCount();
+
+    }
+  learner_created: true
+- name: src/sorting/LongCollector.java
+  visible: true
+  text: |
+    package sorting;
+
+
+    import java.util.*;
+
+    public class LongCollector implements DataCollector {
+        List<Long> list = new ArrayList<>();
+
+        @Override
+        public void processList() {
+            Scanner scanner = new Scanner(System.in);
+
+            while (scanner.hasNext()) {
+                String input = scanner.next();
+                try {
+                    list.add(Long.parseLong(input));
+                } catch (Exception e) {
+                    System.out.printf("\"%s\" is not a valid parameter. It will be skipped.\n", input);
+                }
+            }
+        }
+
+        @Override
+        public void sortNatural() {
+            list.sort(Long::compareTo);
+            System.out.printf("Total numbers: %d.\n", list.size());
+            System.out.print("Sorted data: ");
+            for (Long number : list) {
+                System.out.print(number + " ");
+            }
+        }
+
+        @Override
+        public void sortCount() {
+            Map<Long, Integer> naturallySorted = new TreeMap<>();
+            for (Long number : list) {
+                if (!naturallySorted.containsKey(number)) {
+                    naturallySorted.put(number, 1);
+                } else {
+                    naturallySorted.put(number, naturallySorted.get(number) + 1);
+                }
+            }
+            LinkedHashMap<Long, Integer> sortedByValue = new LinkedHashMap<>();
+            naturallySorted.entrySet().stream().sorted(Map.Entry.comparingByValue())
+                    .forEachOrdered(o -> sortedByValue.put(o.getKey(), o.getValue()));
+
+            System.out.printf("Total numbers: %d.\n", list.size());
+            for (Long number : sortedByValue.keySet()) {
+                int numberCounted = naturallySorted.get(number);
+                System.out.printf("%d: %d time(s), %d%%\n", number, numberCounted, numberCounted * 100 / list.size());
+            }
+        }
+    }
+  learner_created: true
+- name: src/sorting/CLI_Arguments.java
+  visible: true
+  text: |
+    package sorting;
+
+    public enum CLI_Arguments {
+        dataType, sortingType
+    }
+  learner_created: true
+- name: src/sorting/SortType.java
+  visible: true
+  text: |
+    package sorting;
+
+    public enum SortType {
+        natural, byCount
+    }
+  learner_created: true
+- name: src/sorting/WordCollector.java
+  visible: true
+  text: |
+    package sorting;
+
+    import java.util.*;
+
+    public class WordCollector implements DataCollector {
+        List<String> list = new ArrayList<>();
+
+        @Override
+        public void processList() {
+            Scanner scanner = new Scanner(System.in);
+            while (scanner.hasNext()) {
+                list.add(scanner.next());
+            }
+        }
+
+        @Override
+        public void sortNatural() {
+            list.sort(String::compareTo);
+            System.out.printf("Total words: %d.\n", list.size());
+            System.out.print("Sorted data: ");
+            for (String word : list) {
+                System.out.print(word + " ");
+            }
+        }
+
+        @Override
+        public void sortCount() {
+            Map<String, Integer> naturallySorted = new TreeMap<>();
+            for (String word : list) {
+                if (!naturallySorted.containsKey(word)) {
+                    naturallySorted.put(word, 1);
+                } else {
+                    naturallySorted.put(word, naturallySorted.get(word) + 1);
+                }
+            }
+
+            LinkedHashMap<String, Integer> sortedByValue = new LinkedHashMap<>();
+            naturallySorted.entrySet().stream().sorted(Map.Entry.comparingByValue())
+                    .forEachOrdered(o -> sortedByValue.put(o.getKey(), o.getValue()));
+
+
+            System.out.printf("Total words: %d.\n", list.size());
+            for (String word : sortedByValue.keySet()) {
+                int wordsCounted = naturallySorted.get(word);
+                System.out.printf("%s: %d time(s), %d%%\n", word, wordsCounted, wordsCounted * 100 / list.size());
+            }
+        }
+    }
+  learner_created: true
+- name: src/sorting/LineCollector.java
+  visible: true
+  text: |
+    package sorting;
+
+    import java.util.*;
+
+    public class LineCollector implements DataCollector {
+        List<String> list = new ArrayList<>();
+
+        @Override
+        public void processList() {
+            Scanner scanner = new Scanner(System.in);
+            while (scanner.hasNext()) {
+                list.add(scanner.nextLine());
+            }
+        }
+
+        @Override
+        public void sortNatural() {
+            list.sort(String::compareTo);
+            System.out.printf("Total lines: %d.\n", list.size());
+            System.out.print("Sorted data: ");
+            for (String line : list) {
+                System.out.println(line);
+            }
+        }
+
+        @Override
+        public void sortCount() {
+            Map<String, Integer> naturallySorted = new TreeMap<>();
+            for (String line : list) {
+                if (!naturallySorted.containsKey(line)) {
+                    naturallySorted.put(line, 1);
+                } else {
+                    naturallySorted.put(line, naturallySorted.get(line) + 1);
+                }
+            }
+
+            LinkedHashMap<String, Integer> sortedByValue = new LinkedHashMap<>();
+            naturallySorted.entrySet().stream().sorted(Map.Entry.comparingByValue())
+                    .forEachOrdered(o -> sortedByValue.put(o.getKey(), o.getValue()));
+
+
+            System.out.printf("Total lines: %d.\n", list.size());
+            for (String line : sortedByValue.keySet()) {
+                int linesCounted = naturallySorted.get(line);
+                System.out.printf("%s: %d time(s), %d%%\n", line, linesCounted, linesCounted * 100 / list.size());
+            }
+        }
+    }
+  learner_created: true
+- name: test/common/SortingToolStage5Test.kt
+  visible: false
+  text: |+
+    package common
+
+    import org.hyperskill.hstest.stage.StageTest
+    import org.hyperskill.hstest.testcase.CheckResult
+    import org.hyperskill.hstest.testcase.TestCase
+    import org.hyperskill.hstest.testing.Settings
+    import java.util.*
+
+    class SortingToolStage5Test : StageTest<SortingToolClue>() {
+
+        init {
+            Settings.allowOutOfInput = true
+        }
+
+        override fun generate(): List<TestCase<SortingToolClue>> {
+            return stage4Tests() + stage5Tests()
+        }
+
+        override fun check(reply: String, clue: SortingToolClue): CheckResult {
+            return when {
+                badArgs(clue.args) -> CheckResult(true)  // TODO: test something here
+                "byCount" in clue.args -> checkByCount(reply, clue)
+                else -> checkNatural(reply, clue)
+            }
+        }
+
+        private fun checkByCount(reply: String, clue: SortingToolClue): CheckResult {
+            return when {
+                "long" in clue.args -> checkByCount(parseLongTokens(clue.consoleInput), { it.toInt() }, clue, reply)
+                "word" in clue.args -> checkByCount(parseWordTokens(clue.consoleInput), { it }, clue, reply)
+                "line" in clue.args -> checkByCount(parseLineTokens(clue.consoleInput), { it }, clue, reply)
+
+                else -> throw IllegalArgumentException("Bad test: no data type found")
+            }
+        }
+
+        private fun checkNatural(reply: String, clue: SortingToolClue): CheckResult {
+            return when {
+                "long" in clue.args -> checkNatural(parseLongTokens(clue.consoleInput), ::parseLongTokens, clue, reply)
+                "word" in clue.args -> checkNatural(parseWordTokens(clue.consoleInput), ::parseWordTokens, clue, reply)
+                "line" in clue.args -> checkNatural(parseLineTokens(clue.consoleInput), ::parseLineTokens, clue, reply)
+
+                else -> throw IllegalArgumentException("Bad test: no data type found")
+            }
+        }
+
+        private fun badArgs(args: List<String>): Boolean {
+            val unknownArgs =
+                    args.toSet() - setOf("-dataType", "-sortingType", "long", "word", "line", "natural", "byCount")
+
+            if (unknownArgs.isNotEmpty()) {
+                return true
+            }
+
+            if (args.last() == "-dataType" || args.last() == "-sortingType") {
+                return true
+            }
+
+            return false
+        }
+    }
+
+    fun stage5Tests(): List<TestCase<SortingToolClue>> {
+        return listOf(
+                createTest(
+                        """
+                    |1 -2   333 4
+                    |42
+                    |1                 1
+                    """.trimMargin(),
+                        true,
+                        "-sortingType"
+                ),
+                createTest(
+                        """
+                    |1 -2   333 4
+                    |42
+                    |1                 1
+                    """.trimMargin(),
+                        true,
+                        "-sortingType", "byCount", "-dataType", "long", "-abc"
+                ),
+                createTest(
+                        """
+                    |1111 1111
+                    |22222
+                    |3
+                    |44
+                    """.trimMargin(),
+                        false,
+                        "-sortingType", "byCount", "-dataType", "line", "-cde"
+                ),
+                createTest(
+                        """
+                    |1111 1111
+                    |22222
+                    |3
+                    |44
+                    """.trimMargin(),
+                        false,
+                        "-dataType", "line", "-sortingType"
+                )
+        )
+    }
+
+
+    fun stage4Tests(): List<TestCase<SortingToolClue>> {
+        return listOf(
+                createTest(
+                        """
+                    |1 -2   333 4
+                    |42
+                    |1                 1
+                    """.trimMargin(),
+                        true,
+                        "-dataType", "long", "-sortingType", "natural"
+                ),
+                createTest(
+                        """
+                    |1 -2   333 4
+                    |42
+                    |1                 1
+                    """.trimMargin(),
+                        true,
+                        "-dataType", "long"
+                ),
+                createTest(
+                        """
+                    |1 -2   333 4
+                    |42
+                    |1                 1
+                    """.trimMargin(),
+                        true,
+                        "-sortingType", "byCount", "-dataType", "long"
+                ),
+                createTest(
+                        """
+                    |1 -2   333 4
+                    |42
+                    |1                 1
+                    """.trimMargin(),
+                        true,
+                        "-sortingType", "byCount", "-dataType", "word"
+                ),
+                createTest(
+                        """
+                    |1 -2   333 4
+                    |42
+                    |42
+                    |1                 1
+                    """.trimMargin(),
+                        true,
+                        "-sortingType", "byCount", "-dataType", "line"
+                ),
+                createTest(
+                        """
+                    |1111 1111
+                    |22222
+                    |3
+                    |44
+                    """.trimMargin(),
+                        false,
+                        "-sortingType", "byCount", "-dataType", "line"
+                ),
+                createTest(
+                        """
+                    |1111 1111
+                    |22222
+                    |3
+                    |44
+                    """.trimMargin(),
+                        false,
+                        "-sortingType", "byCount", "-dataType", "word"
+                ),
+                createTest(
+                        """
+                    |1111 1111
+                    |22222
+                    |3
+                    |44
+                    """.trimMargin(),
+                        false,
+                        "-sortingType", "byCount", "-dataType", "long"
+                )
+        )
+    }
+
+
+    fun revealRawTest(clue: SortingToolClue, reply: String): String {
+        return with(clue) { "Args:\n${args.joinToString(" ")}\nInput:\n$consoleInput\nYour output:\n$reply\n\n" }
+    }
+
+    class SortingToolClue(val consoleInput: String, val revealTest: Boolean, val args: List<String>)
+
+    fun createTest(
+            consoleInput: String,
+            revealTest: Boolean,
+            vararg args: String = arrayOf("-dataType", "long")
+    ): TestCase<SortingToolClue> {
+        return TestCase<SortingToolClue>()
+                .setAttach(SortingToolClue(consoleInput, revealTest, args.toList()))
+                .setInput(consoleInput)
+                .addArguments(*args)
+    }
+
+    fun parseLongTokens(input: String): List<Int> {
+        val scanner = Scanner(input)
+
+        val longTokens = mutableListOf<Int>()
+
+        while (scanner.hasNextInt()) {
+            longTokens.add(scanner.nextInt())
+        }
+
+        return longTokens
+    }
+
+    fun parseWordTokens(input: String): List<String> {
+        val scanner = Scanner(input)
+
+        val wordTokens = mutableListOf<String>()
+
+        while (scanner.hasNext()) {
+            wordTokens.add(scanner.next())
+        }
+
+        return wordTokens
+    }
+
+    fun parseLineTokens(input: String): List<String> {
+        return input.lines()
+    }
+
+    fun <TokenType : Comparable<TokenType>> checkNatural(
+            actualTokens: List<TokenType>,
+            sortedTokensParser: (String) -> List<TokenType>,
+            clue: SortingToolClue,
+            reply_: String
+    ): CheckResult {
+        val reply = reply_.trim()
+        val lines = reply.lines()
+
+        if (lines.size != 2) {
+            return if (clue.revealTest) {
+                CheckResult(
+                        false,
+                        "Can't parse your output: expected 2 lines.\n" +
+                                revealRawTest(clue, reply)
+                )
+            } else {
+                CheckResult(false, "Can't parse your output: expected 2 lines.")
+            }
+        }
+
+        val totalRegex = """(\d+)""".toRegex()
+        val totalMatchResult = totalRegex.find(lines[0])
+        if (totalMatchResult == null) {
+            return if (clue.revealTest) {
+                CheckResult(
+                        false,
+                        "Can't find number in the first line of your output.\n" +
+                                revealRawTest(clue, reply)
+                )
+            } else {
+                CheckResult(false, "Can't find number in the first line of your output.")
+            }
+        }
+
+        val totalTokens = totalMatchResult.groupValues[1].toInt()
+
+        val actualTotal = actualTokens.size
+
+        if (actualTotal != totalTokens) {
+            return if (clue.revealTest) {
+                CheckResult(
+                        false,
+                        "Total tokens ($totalTokens) are incorrect. Expected: $actualTotal.\n" +
+                                revealRawTest(clue, reply)
+                )
+            } else {
+                CheckResult(false, "Total tokens are incorrect.")
+            }
+        }
+
+        val sortedActualTokens = actualTokens.sorted()
+
+        val sortedTokens = sortedTokensParser(lines[1].substringAfter(":").dropWhile { it in setOf('\n', '\r') })
+
+        val total = sortedTokens.size
+
+        if (actualTotal != total) {
+            return if (clue.revealTest) {
+                CheckResult(
+                        false,
+                        "Total sorted tokens ($total) are incorrect. Expected: $actualTotal.\n" +
+                                revealRawTest(clue, reply)
+                )
+            } else {
+                CheckResult(false, "Total sorted tokens are incorrect.")
+            }
+        }
+
+        if (sortedActualTokens != sortedTokens) {
+            return if (clue.revealTest) {
+                CheckResult(
+                        false,
+                        "Sorted tokens are incorrect.\n" +
+                                revealRawTest(clue, reply)
+                )
+            } else {
+                CheckResult(false, "Sorted tokens are incorrect.")
+            }
+        }
+
+        return CheckResult(true)
+    }
+
+    fun <TokenType : Comparable<TokenType>> checkByCount(
+            actualTokens: List<TokenType>,
+            tokenParser: (String) -> TokenType,
+            clue: SortingToolClue,
+            reply_: String
+    ): CheckResult {
+        val reply = reply_.trim()
+        val lines = reply.lines()
+
+        val totalRegex = """(\d+)""".toRegex()
+        val totalMatchResult = totalRegex.find(lines[0])
+        if (totalMatchResult == null) {
+            return if (clue.revealTest) {
+                CheckResult(
+                        false,
+                        "Can't find number in the first line of your output.\n" +
+                                revealRawTest(clue, reply)
+                )
+            } else {
+                CheckResult(false, "Can't find number in the first line of your output.")
+            }
+        }
+
+        val totalTokens = totalMatchResult.groupValues[1].toInt()
+
+        val actualTotal = actualTokens.size
+
+        if (actualTotal != totalTokens) {
+            return if (clue.revealTest) {
+                CheckResult(
+                        false,
+                        "Total tokens ($totalTokens) are incorrect. Expected: $actualTotal.\n" +
+                                revealRawTest(clue, reply)
+                )
+            } else {
+                CheckResult(false, "Total tokens are incorrect.")
+            }
+        }
+
+        val tokenToCount = mutableMapOf<TokenType, Int>()
+
+        for (token in actualTokens) {
+            tokenToCount[token] = (tokenToCount[token] ?: 0) + 1
+        }
+
+        val actualSortedByCount = tokenToCount.toList().sortedWith(compareBy({ it.second }, { it.first }))
+        val linesWithTokens = lines.drop(1)
+
+        if (actualSortedByCount.size != linesWithTokens.size) {
+            return if (clue.revealTest) {
+                CheckResult(
+                        false,
+                        "Lines with tokens (${linesWithTokens.size}) are incorrect. Expected: ${actualSortedByCount.size}.\n" +
+                                revealRawTest(clue, reply)
+                )
+            } else {
+                CheckResult(false, "Lines with tokens are incorrect.")
+            }
+        }
+
+        for ((lineId, line) in linesWithTokens.withIndex()) {
+            val token = tokenParser(line.substringBefore(':'))
+            val info = line.substringAfter(':')
+
+            val (actualToken, actualTimes) = actualSortedByCount[lineId]
+
+            if (token != actualToken) {
+                return if (clue.revealTest) {
+                    CheckResult(
+                            false,
+                            "Token ($token) is incorrect. Expected: $actualToken.\n" +
+                                    revealRawTest(clue, reply)
+                    )
+                } else {
+                    CheckResult(false, "Token is incorrect.")
+                }
+            }
+
+            // TODO: check info (times and percentage)
+        }
+
+        return CheckResult(true)
+    }
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/5385#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 25 May 2022 23:51:21 UTC
+record: 5
